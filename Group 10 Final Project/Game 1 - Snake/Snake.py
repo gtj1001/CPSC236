@@ -85,7 +85,7 @@ def runGame():
                 elif event.key == K_ESCAPE:
                     terminate()
 
-        # check if the worm has hit itself, amine or the edge
+        # check if the worm has hit itself, a mine or the edge
         if wormCoords[HEAD]['x'] == -1 or wormCoords[HEAD]['x'] == CELLWIDTH or wormCoords[HEAD]['y'] == -1 or wormCoords[HEAD]['y'] == CELLHEIGHT:
             return (len(wormCoords)-3) # game over
         for wormBody in wormCoords[1:]:
@@ -126,6 +126,7 @@ def runGame():
         drawApple(apple)
         for item in minefield:
             new='f'
+            # Send 'new' flag to drawMine function if mine is the last one in the list.
             if minefield.index(item)==(len(minefield)-1):
                 new='t'
             drawMine(item,new)
@@ -162,6 +163,7 @@ def showStartScreen():
     scale=1
     grow="True"
     while True:
+        # Set display handlers for all title screen elements
         DISPLAYSURF.fill(BGCOLOR)
         rotatedSurf1 = pygame.transform.rotate(titleSurf1, degrees1)
         rotatedRect1 = rotatedSurf1.get_rect()
@@ -259,9 +261,11 @@ def updateHighScore(score):
     with open("snake_hiscores.txt","r") as file:
         hiscores=[]
         for line in file:
+            # Remove whitespace characters so that scores can be transformed into ints for comparative
+            # math to be done on them.
             line=line.rstrip()
             hiscores.append(int(line))
-            # Correct for formatting oddities like trailing \n's
+            # Catch in case hiscore file ended up with trailing whitespace, etc.
             while True:
                 if len(hiscores)>10:
                     hiscores.pop()
@@ -308,7 +312,7 @@ def drawMine(coord,new):
     y=coord['y'] * CELLSIZE
     mineRect = pygame.Rect(x, y, CELLSIZE, CELLSIZE)
     pygame.draw.rect(DISPLAYSURF, DARKORANGE, mineRect)
-    # Newest mine is highlighted in yellow
+    # Newest mine is has yellow interior for game readability
     if new=='t':
         innerMineRect = pygame.Rect(x+3,y+3,CELLSIZE-6,CELLSIZE-6)
         pygame.draw.rect(DISPLAYSURF, YELLOW, innerMineRect)
