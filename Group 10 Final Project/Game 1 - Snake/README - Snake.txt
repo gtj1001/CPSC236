@@ -1,4 +1,6 @@
        -Snake-
+Original Game by Al Sweigart
+Modified by Garrett Jones
 ==========================
 This program is a .py file and should run when directly executed. 
 No notebook or development environment is necessary to run this game.
